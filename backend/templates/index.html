@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog Form</title>
+</head>
+<body>
+  <h1>Create a New Blog</h1>
+  <form id="blogForm" method="POST" action="/blog/save">
+    <label for="title">Blog Title:</label>
+    <input type="text" id="title" name="title" required>
+    <br>
+
+    <label for="content">Blog Content:</label>
+    <textarea id="content" name="content" rows="4" required></textarea>
+    <br>
+
+    <label for="author">Blog Author:</label>
+    <input type="text" id="author" name="author" required>
+    <br>
+
+    <button type="submit">Save</button>
+  </form>
+  <br>
+  <form id="update-form" action="/blog/update/" method="POST">
+    <label>Enter blog ID: </label>
+    <input type="number"><br>
+    <!-- <label>Enter title: </label>
+    <input type="text"><br>
+    <label>Enter content: </label>
+    <input type="text"><br>
+    <input type="text"><br> -->
+    <button type="submit">Update</button>
+  </form> 
+  <!-- <script>
+    var form = document.querySelector('#blogForm');
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+    })
+  </script> -->
+</body>
+</html>
