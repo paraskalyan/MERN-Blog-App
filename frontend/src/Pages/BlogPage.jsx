@@ -15,6 +15,12 @@ const BlogPage = () => {
             .catch(error=>console.log(error))
     },[])
 
+    const handleFollow = ()=>{
+        axios.put('http://localhost:4000/user/follow', {followId: data.userId, userId: localStorage.getItem('userId')})
+        .then(res=> console.log(res.data))
+        .catch(err=> console.log(err))
+    }
+
     return (
         <div className='mt-[7vh] px-[20%] py-10 '>
             {data &&
@@ -25,8 +31,8 @@ const BlogPage = () => {
                     <img src='d' />
                     <div className='flex flex-col'>
                         <div className='flex gap-3'>
-                            <p>{data.author}</p>
-                            <button className='text-green-700'>Follow</button>
+                            <p>{data.userId}</p>
+                            <button onClick={handleFollow} className='text-green-700'>Follow</button>
                         </div>
                         <div className='flex gap-3 text-gray-500 text-[14px]'>
                             <p>7 min read</p>
