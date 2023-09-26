@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import axios from 'axios';
-const Write = () => {
+import { useNavigate } from 'react-router-dom';
+const Write = ({isAuth}) => {
+  const navigate = useNavigate();
   const [formInputs, setFormInputs] = useState({
     title: '',
     content: '',
@@ -30,6 +32,7 @@ const Write = () => {
     formData.append('title', formInputs.title)
     formData.append('content', formInputs.content)
     formData.append('category', formInputs.category)
+    formData.append('userId', localStorage.getItem('userId'))
     console.log(formData)
   
     axios.post('http://localhost:4000/blog/save', formData)
@@ -37,6 +40,7 @@ const Write = () => {
       .catch(error => console.error(error))
 
   }
+
   return (
     <div className='h-full px-[20%] py-[40px] flex flex-col'>
       <div className='flex justify-between items-center  px-2'>
