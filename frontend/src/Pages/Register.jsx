@@ -26,11 +26,12 @@ const Register = () => {
 
     }
   return (
-    <div className='flex items-center justify-center bg-slate-500 h-[100vh]'>
-        <form className='flex flex-col gap-2 w-[400px] items-center text-[14px]' onSubmit={handleSubmit}>
-            <input name='username' onChange={handleChange} value={formData.username} className='p-1 rounded-sm outline-none w-[80%]' placeholder='Enter username' type="text" />
-            <input name='email' onChange={handleChange} value={formData.email} className='p-1 rounded-sm outline-none w-[80%]' placeholder='Enter email' type="text" />
-            <input name='password' onChange={handleChange} value={formData.password} className='p-1 rounded-sm outline-none w-[80%]' placeholder='Enter password' type="password" />
+    <div className='flex flex-col items-center justify-center h-[100vh]'>
+        <h1 className='text-[2rem] mb-4'>Sign up</h1>
+        <form className='flex flex-col gap-4 w-[400px] items-center text-[14px]' onSubmit={handleSubmit}>
+            <input name='username' onChange={handleChange} value={formData.username} className=' bg-inherit p-1 text-[1rem] rounded-sm outline-none w-[80%] border-b focus:border-b-2' placeholder='Enter username' type="text" />
+            <input name='email' onChange={handleChange} value={formData.email} className=' bg-inherit p-1 text-[1rem] rounded-sm outline-none w-[80%] border-b focus:border-b-2' placeholder='Enter email' type="text" />
+            <input name='password' onChange={handleChange} value={formData.password} className=' bg-inherit p-1 text-[1rem] rounded-sm outline-none w-[80%] border-b focus:border-b-2' placeholder='Enter password' type="password" />
             <button type='submit' className='bg-slate-800 text-white py-1 px-4 rounded-sm hover:bg-slate-900' >Register</button>
         </form>
     </div>
