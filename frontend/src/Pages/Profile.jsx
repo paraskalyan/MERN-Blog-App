@@ -1,65 +1,54 @@
 import axios from 'axios';
-import React, { useState } from 'react'
-import { redirect, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import counter, { decrement, increment } from '../features/counter';
-import { changeAuth } from '../features/authSlice';
-import { addUser, currentUser } from '../features/userSlice';
-const Login = ({setAuth}) => {
-    const counterVal = useSelector(state=> state.count)
-    const authState = useSelector(state=> state.auth)
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [ formData, setFormData ] = useState({
-        username: '',
-        password: '',
-    })
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom'
+import Blog from '../components/Blog';
+import Blogs from '../components/Blogs';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+const Profile = () => {
+  const { id } = useParams();
+  const user = useSelector(state=> state.user.user)
+  console.log("asdakkkkkkkkkk",user)
+  const [ blogs, setBlogs ] = useState(null)
+    useEffect(()=>{
+        axios.get(`http://localhost:4000/user/blog/${id}`)
+        .then(res=>{console.log(res); setBlogs(res.data)})
+        .catch(err=>console.log(err))
+    },[])
 
-    const handleChange = (e)=>{
-        const { name, value } = e.target;
-        setFormData((prevData)=>({
-            ...prevData,
-            [name]: value
-        }))
-    }
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-        axios.post('http://localhost:4000/auth/login', formData)
-        .then(response=>{
-            console.log(response.data.token)
-            console.log(response.data)
-            if (response.status === 200){
-                dispatch(changeAuth(true))
-                dispatch(addUser(response.data.userData))
-                // fetchUserBlogs();
-            }
-            
-            localStorage.setItem("token", response.data.token)
-            localStorage.setItem("userId", response.data.userId)
-            localStorage.setItem("username", response.data.username)
-            // setAuth(true)
-            navigate('/')
-        }
-             )
-        .catch(err=> console.error(err))
-    }
-    const fetchUserBlogs = ()=>{
+  return (
+    <div className='mt-[7vh] mx-[20%] py-[40px] h-auto flex flex-col items-center justify-center '>
+      <div className='flex items-center py-5 rounded-full w-[70%] justify-center shadow-md'>
+        <div className='border-2 border-black h-[70px] w-[70px] rounded-full '></div>
+        <div className='flex gap-5 ml-8'>
+          {user && 
+          <>
+          <div className=''>{user.username}</div>
+          <div className=''>{user.followers.length} followers</div>
+          <div className=''>{user.following.length} following</div>
+          </>
+          }
+        </div>
+      </div>
+      <div className='my-4 w-full'>
+        <h1 className='text-[2rem]'>Your posts</h1>
+        <div className=''>
+          {blogs && blogs.map(blog=>
+          <div className='cursor-pointer p-4 rounded-md shadow-md hover:shadow-xl group relative'>
+            <div className='absolute right-0 p-3'>
+              <button className='invisible group-hover:visible bg-black rounded-full text-white p-1 mx-1'><EditIcon/></button>
+              <button className='invisible group-hover:visible bg-black rounded-full text-white p-1'><DeleteIcon/></button>
+            </div>
+            <h1>{blog.title}</h1>
+            <h2>{blog.content}</h2>
+          </div>
+            )}
+        </div>
+      </div>
 
-    }
-  return (  
-    <div className='flex items-center justify-center h-[100vh]'>
-        <form className='flex flex-col gap-3 w-[400px] items-center text-[14px] py-[50px] px-3 rounded-2xl' onSubmit={handleSubmit}>
-            <h1 className='text-[2rem] mb-4'>Login into your account</h1>
-            <input onChange={handleChange} value={formData.username} name='username' placeholder='Enter username' type="text"  className=' bg-inherit p-1 text-[1rem] rounded-sm outline-none w-[80%] border-b focus:border-b-2' />
-            <input onChange={handleChange} value={formData.password} name='password' placeholder='Enter password' type="text"  className=' bg-inherit p-1 text-[1rem] rounded-sm outline-none w-[80%] border-b focus:border-b-2' />
-            <button type='submit' className='bg-slate-800 text-white py-1 px-4 rounded-sm border border-white '>Login</button>
-        </form>
-
-        <span>{counterVal.value}</span>
-        <button onClick={()=>dispatch(increment())}>+</button>
-        <button onClick={()=>dispatch(decrement())}>-</button>
     </div>
   )
 }
 
-export default Login
+export default Profile
